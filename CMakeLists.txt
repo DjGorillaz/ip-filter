@@ -25,7 +25,7 @@ target_link_libraries(ip_filter library)
 
 target_link_libraries(test_sort ${Boost_LIBRARIES} library)
 
-install(TARGETS program RUNTIME DESTINATION bin)
+install(TARGETS ip_filter RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
