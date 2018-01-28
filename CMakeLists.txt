@@ -4,13 +4,13 @@ project (ip_filter VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
-add_executable(program main.cpp)
+add_executable(ip_filter main.cpp)
 
 add_executable(test_sort test.cpp)
 
 add_library(library ip_filter.cpp)
 
-set_target_properties(program library test_sort PROPERTIES
+set_target_properties(ip_filter library test_sort PROPERTIES
         CXX_STANDARD 14
         CXX_STANDARD_REQUIRED ON
         COMPILE_OPTIONS -Wpedantic -Wall -Wextra
@@ -21,7 +21,7 @@ set_target_properties(test_sort PROPERTIES
         INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
 )
 
-target_link_libraries(program library)
+target_link_libraries(ip_filter library)
 
 target_link_libraries(test_sort ${Boost_LIBRARIES} library)
 
