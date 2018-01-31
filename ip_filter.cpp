@@ -49,7 +49,7 @@ void IpPool::print()
 
 void IpPool::reverseSort()
 {
-    std::sort(pool.begin(), pool.end(), std::greater<>());
+    std::sort(pool.begin(), pool.end(), std::greater<vecInt>());
 }
 
 std::vector<vecInt> IpPool::filterAny(const int& inByte)
