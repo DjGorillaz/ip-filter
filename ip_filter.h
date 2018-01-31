@@ -8,47 +8,42 @@
 #include <vector>
 #include <algorithm>
 
-using vecStr = std::vector<std::string>;
+using vecInt = std::vector<int>;
 
 class IpPool
 {
 public:
     IpPool() = default;
     IpPool(std::istream& stream);
-    IpPool& operator=(std::vector<vecStr>&& vv) noexcept;
+    IpPool& operator=(std::vector<vecInt>&& vv) noexcept;
     void print();
     void reverseSort();
     template <typename... Args>
     auto filter(Args... args);
-    std::vector<vecStr> filterAny(int byte);
+    std::vector<vecInt> filterAny(const int &inByte);
 
 private:
     auto split(const std::string &str, char d);
-    std::vector<vecStr> pool;
+    std::vector<vecInt> pool;
 };
 
 template <typename... Args>
 auto IpPool::filter(Args... args)
 {
-    std::vector<vecStr> v;
+    std::vector<vecInt> v;
     if (pool.empty())
         return v;
 
-    auto sz = sizeof...(args);
-    if (sz > pool.at(0).size())
+    if (sizeof...(args) > pool.at(0).size())
             throw std::invalid_argument("Too much args");
 
-    int inIp[sizeof...(args)] = {(args)...};
-    for(const auto& ip : pool)
+    vecInt inIp = {(args)...};
+
+    std::copy_if(pool.begin(), pool.end(), std::back_inserter(v), [&inIp](const vecInt& ip)
     {
-        uint i = 0;
-        for(; i < sz; ++i)
-        {
-            if (inIp[i] != std::stoi(ip.at(i)))
-                break;
-        }
-        if (i == sz) v.push_back(ip);
-    }
+        return std::equal(inIp.begin(), inIp.end(), ip.begin());
+    });
+
     return v;
 }
 
